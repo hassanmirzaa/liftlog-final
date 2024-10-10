@@ -17,9 +17,9 @@ class NutrientIndicator extends StatelessWidget {
       children: [
         Text(
           label,
-          style: TextStyle(color: Colors.grey),
+          style: const TextStyle(color: Colors.grey),
         ),
-        SizedBox(height: 4),
+         SizedBox(height: MediaQuery.of(context).size.height*0.02),
         Text(
           value,
           style: TextStyle(
