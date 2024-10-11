@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "782823675874",
+    "project_id": "liftlog-6cd99",
+    "storage_bucket": "liftlog-6cd99.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:782823675874:android:3c6fb09e1a76b976b80bbb",
+        "android_client_info": {
+          "package_name": "com.example.liftlogg"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBqN2wPAb7Qq-IpoTQh0TyWway99CUfpgc"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
