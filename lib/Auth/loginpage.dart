@@ -1,12 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:icons_plus/icons_plus.dart';
 import 'package:liftlog/Auth/signupscreen.dart';
-import 'package:liftlog/NavBar/navbar.dart';
+import 'package:liftlog/Home/Split.dart';
 import 'package:liftlog/Widgets/custom_sizedbox.dart';
 import 'package:liftlog/Widgets/custom_textfield.dart';
 import 'package:liftlog/Widgets/square_button.dart';
 import 'package:liftlog/colors.dart';
-import 'package:shared_preferences/shared_preferences.dart';
+//import 'package:shared_preferences/shared_preferences.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
@@ -37,13 +38,13 @@ class _LoginScreenState extends State<LoginScreen> {
         email: EmailController.text.trim(),
         password: PswdController.text.trim(),
       );
-      final prefs = await SharedPreferences.getInstance();
-      await prefs.setBool('isLoggedin', true);
+   //   final prefs = await SharedPreferences.getInstance();
+     // await prefs.setBool('isLoggedin', true);
 
       Navigator.pushReplacement(
         context,
         MaterialPageRoute(
-          builder: (context) => const CustomNavBar(),
+          builder: (context) => SplitScreen(),
         ),
       );
     } on FirebaseAuthException catch (e) {
@@ -78,22 +79,35 @@ class _LoginScreenState extends State<LoginScreen> {
 
   @override
   Widget build(BuildContext context) {
+    
+  final Height = MediaQuery.of(context).size.height;
+  final Width = MediaQuery.of(context).size.width;
     return Scaffold(
+      backgroundColor: AppColor.BackgroundColor,
       body: Center(
         child: Padding(
-          padding: const EdgeInsets.all(20.0),
+          padding: const EdgeInsets.only(left: 20,right: 20,top: 60),
           child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
+            mainAxisAlignment: MainAxisAlignment.start,
             children: [
-              Text(
-                'Login',
-                style: TextStyle(
-                  fontSize: 35,
-                  fontWeight: FontWeight.bold,
-                  color: AppColor.ThemeColor,
+             Container(
+                  decoration: BoxDecoration(
+                    color: Colors.grey.withOpacity(0.6),
+                    borderRadius: BorderRadius.circular(30),
+                  ),
+                  child: const Padding(
+                    padding: EdgeInsets.all(25.0),
+                    child: Text(
+                      'Login',
+                      style: TextStyle(
+                        fontSize: 30,
+                        color: Colors.white,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                  ),
                 ),
-              ),
-              const CustomSizedBox(x: 0.05),
+              const CustomSizedBox(x: 0.15),
               Form(
                 key: _formKey,
                 child: Column(
@@ -126,32 +140,32 @@ class _LoginScreenState extends State<LoginScreen> {
               ),
               const CustomSizedBox(x: 0.02),
               _isLoading
-                  ? const CircularProgressIndicator()
+                  ?  CircularProgressIndicator(color: Colors.white,)
                   : SquareButton(
                       heading: 'Login',
-                      widthSize: 0.3,
+                      widthSize: 0.8,
                       onPress: () {
                         if (_formKey.currentState!.validate()) {
                           login();
                         }
                       },
-                      heightSize: 0.1,
+                      heightSize: 0.08,
                     ),
               const CustomSizedBox(x: 0.02),
               TextButton(
                 onPressed: resetPassword,
                 child: Text(
                   'Forgot Password?',
-                  style: TextStyle(color: AppColor.ThemeColor),
+                  style: TextStyle(color: AppColor.ThemeColor,fontSize: 18),
                 ),
               ),
-              const CustomSizedBox(x: 0.04),
+              const CustomSizedBox(x: 0.02),
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   Text(
                     "Don't have an account?",
-                    style: TextStyle(color: AppColor.ThemeColor),
+                    style: TextStyle(color: AppColor.ThemeColor,fontSize: 18),
                   ),
                   InkWell(
                     onTap: () {
@@ -164,10 +178,24 @@ class _LoginScreenState extends State<LoginScreen> {
                     },
                     child: const Text(
                       ' Register',
-                      style: TextStyle(color: Colors.blue),
+                      style: TextStyle(color: Colors.blue,fontSize: 18),
                     ),
                   ),
                 ],
+              ),
+              CustomSizedBox(x: 0.02),
+              Text("Or"),
+              CustomSizedBox(x: 0.02),
+              
+              Container(width: Width*0.2,
+                decoration: BoxDecoration(
+                  color: Colors.white,
+                  borderRadius: BorderRadius.circular(20)
+                ),
+                child: Padding(
+                  padding: const EdgeInsets.all(15.0),
+                  child: Center(child: Icon(Bootstrap.google,size: 35,color: Colors.green.shade800,)),
+                ),
               )
             ],
           ),

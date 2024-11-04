@@ -1,9 +1,11 @@
+import 'dart:ui';
+
 import 'package:flutter/material.dart';
+import 'package:icons_plus/icons_plus.dart';
+import 'package:liftlog/Auth/loginpage.dart';
 import 'package:liftlog/Settings/settings_screen.dart';
 import 'package:liftlog/Tutorials/tutorials.dart';
-import 'package:liftlog/Workout/workout_screen.dart';
 import 'package:liftlog/colors.dart';
-import 'package:liftlog/Home/homepage_screen.dart';
 
 class CustomNavBar extends StatefulWidget {
   const CustomNavBar({super.key});
@@ -13,104 +15,94 @@ class CustomNavBar extends StatefulWidget {
 }
 
 class _CustomNavBarState extends State<CustomNavBar> {
-  int currentstate=0;
-  final List<Widget> screen=const[
-    Homepage(),
-    WorkoutScreen(),
+  int currentstate = 0;
+  final List<Widget> screens = const [
+    LoginScreen(),
     TutorialsScreen(),
     SettingsScreen()
   ];
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      bottomNavigationBar: BottomAppBar(
-        height: MediaQuery.of(context).size.height*0.1,
-        color: AppColor.ThemeColor,
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceAround,
-          children: [
-            InkWell(
-              onTap: (){
-                setState(() {
-                  currentstate=0;
-                  debugPrint(currentstate.toString());
-                 
-                });
-              },
-              child: Container(
-                child: Column(
-                  children: [
-                    Icon(Icons.home_rounded,color: currentstate ==0 ?Colors.blue : Colors.white,size: 30,),
-                    Text('Home',
-                    style: TextStyle(
-                      fontSize: 15,
-                      color: currentstate ==0 ?Colors.blue : Colors.white),)
-                  ],
+      body: Stack(
+        children: [
+          IndexedStack(
+            index: currentstate,
+            children: screens,
+          ),
+          Align(
+            alignment: Alignment.bottomCenter,
+            child: Padding(
+              padding: const EdgeInsets.all(15.0), // Adjust padding as needed
+              child: ClipRRect(
+                borderRadius: BorderRadius.circular(25), // Adjust border radius as needed
+                child: BackdropFilter(
+                  filter: ImageFilter.blur(sigmaX: 10, sigmaY: 10),
+                  child: Container(
+                    height: MediaQuery.of(context).size.height * 0.11,
+                    color: Colors.grey.withOpacity(0.6),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceAround,
+                      children: [
+                        _buildNavItem(Icons.home_rounded, 'Home', 0),
+                        _buildNavItem(Icons.video_library, 'Tutorials', 1),
+                        _buildNavItem(AntDesign.setting_outline, 'Settings', 2),
+                      ],
+                    ),
+                  ),
                 ),
               ),
             ),
-            InkWell(
-              onTap: (){
-                setState(() {
-                  currentstate=1;
-                  debugPrint(currentstate.toString());
-                   
-                });
-              },
-              child: Container(
-                child: Column(
-                  children: [
-                    Icon(Icons.fitness_center_rounded,color: currentstate ==1 ?Colors.blue : Colors.white,size: 30,),
-                    Text('Workout',
-                    style: TextStyle(
-                      fontSize: 15,
-                      color: currentstate ==1 ?Colors.blue : Colors.white),)
-                  ],
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildNavItem(IconData icon, String label, int index) {
+    return GestureDetector(
+      onTap: () {
+        setState(() {
+          currentstate = index;
+          debugPrint(currentstate.toString());
+        });
+      },
+      child: Padding(
+        padding: const EdgeInsets.symmetric(vertical: 6),
+        child: Container(
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(20),
+            color: currentstate == index ? AppColor.PrimaryColor : null,
+          ),
+          child: Padding(
+            padding: const EdgeInsets.symmetric(vertical: 3, horizontal: 8),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Icon(
+                  icon,
+                  color: currentstate == index
+                      ? AppColor.ThemeColor
+                      : AppColor.BackgroundColor, 
+                  size: 39,
                 ),
-              ),
-            ),
-             InkWell(
-              onTap: (){
-                setState(() {
-                  currentstate=2;
-                  debugPrint(currentstate.toString());
-                   
-                });
-              },
-              child: Column(
-                children: [
-                  Icon(Icons.center_focus_strong_rounded,color: currentstate ==2 ?Colors.blue : Colors.white,size: 30,),
-                  Text('Tutorials',
-                  style: TextStyle(
-                    fontSize: 15,color: currentstate ==2 ?Colors.blue : Colors.white),)
-                ],
-              ),
-            ),
-            InkWell(
-              onTap: (){
-                setState(() {
-                  currentstate=3;
-                  debugPrint(currentstate.toString());
-                   
-                });
-              },
-              child: Container(
-                child: Column(
-                  children: [
-                    Icon(Icons.settings_sharp,color: currentstate ==3 ?Colors.blue : Colors.white,   size: 30,),
-                    Text('Settings',
+                if (currentstate == index)
+                  Text(
+                    label,
                     style: TextStyle(
-                      fontSize: 15,
-                      color: currentstate ==3 ?Colors.blue : Colors.white),)
-                  ],
-                ),
-              ),
+                      fontSize: 18,
+                      color: currentstate == index
+                          ? AppColor.ThemeColor
+                          : AppColor.PrimaryColor,
+                      fontWeight: FontWeight.w800,
+                    ),
+                  )
+              ],
             ),
-          ],
+          ),
         ),
       ),
-
-      body: screen[currentstate],
     );
   }
 }

@@ -23,15 +23,15 @@ class SquareButton extends StatelessWidget {
         height: height * heightSize,
         width: width * widthSize,
         decoration: BoxDecoration(
-          color: AppColor.ThemeColor, 
-          borderRadius: BorderRadius.circular(8.0), 
+          color: Colors.white, 
+          borderRadius: BorderRadius.circular(25.0), 
         ),
         alignment: Alignment.center,
         child: Text(
           heading,
           style: const TextStyle(
-            color: Colors.white,
-            fontSize: 16.0, 
+            color: Colors.black,
+            fontSize: 25.0, 
             fontWeight: FontWeight.bold, 
           ),
         ),

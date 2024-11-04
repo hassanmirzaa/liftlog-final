@@ -1,7 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:liftlog/Tutorials/tutorial_description.dart';
-import 'package:liftlog/Widgets/searchbar.dart';
 import 'package:liftlog/Widgets/custom_sizedbox.dart';
 import 'package:liftlog/colors.dart';
 
@@ -14,28 +13,87 @@ class TutorialsScreen extends StatefulWidget {
 
 class _TutorialsScreenState extends State<TutorialsScreen> {
   String searchQuery = "";
+  bool isSearchBarVisible = false;
+  final TextEditingController searchController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
-   
+    final height = MediaQuery.of(context).size.height;
+    final width = MediaQuery.of(context).size.width;
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Tutorials'),
-      ),
+      backgroundColor: AppColor.BackgroundColor,
       body: Padding(
-        padding: const EdgeInsets.only(left: 20,right: 20,top: 12),
+        padding: const EdgeInsets.only(left: 20, right: 20, top: 55),
         child: Column(
           children: [
-            CustomSearchBar(
-              onChanged: (value) {
-                setState(() {
-                  searchQuery = value; // Update search query
-                });
-              },
+            Container(
+              decoration: BoxDecoration(
+                color: Colors.grey.withOpacity(0.6),
+                borderRadius: BorderRadius.circular(30),
+              ),
+              child: Padding(
+                padding: const EdgeInsets.all(12.0),
+                child: Column(
+                  children: [
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        const Text(
+                          'Tutorials',
+                          style: TextStyle(
+                            fontSize: 30,
+                            color: Colors.white,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                        IconButton(
+                          onPressed: () {
+                            setState(() {
+                              isSearchBarVisible = !isSearchBarVisible;
+                            });
+                          },
+                          icon: const Icon(
+                            Icons.search_rounded,
+                            color: Colors.white,
+                            size: 30,
+                          ),
+                        ),
+                        
+                      ],
+                    ),
+                    SizedBox(height: height * 0.001),
+                    AnimatedCrossFade(
+                      firstChild: TextField(
+                        controller: searchController,
+                        decoration: InputDecoration(
+                          hintText: "Search Exercise",
+                          filled: true,
+                          fillColor: Colors.white,
+                          border: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(30),
+                            borderSide: BorderSide.none,
+                          ),
+                          prefixIcon: const Icon(Icons.search),
+                        ),
+                        onChanged: (value) {
+                          setState(() {
+                            searchQuery = value;
+                          });
+                        },
+                      ),
+                      secondChild: const SizedBox(),
+                      crossFadeState: isSearchBarVisible
+                          ? CrossFadeState.showFirst
+                          : CrossFadeState.showSecond,
+                      duration: const Duration(milliseconds: 300),
+                    ),
+                  ],
+                ),
+              ),
             ),
-            const CustomSizedBox(x: 0.02,),
+            const CustomSizedBox(x: 0.01),
             Expanded(
-              child: StreamBuilder(
+              child: StreamBuilder<QuerySnapshot>(
                 stream: FirebaseFirestore.instance
                     .collection('tutorials')
                     .snapshots(),
@@ -54,46 +112,48 @@ class _TutorialsScreenState extends State<TutorialsScreen> {
                         var tutorial = tutorials![index];
 
                         return Padding(
-                          padding: const EdgeInsets.only(left: 8,right: 8,top: 12),
+                          padding: const EdgeInsets.only(left: 8, right: 8, bottom: 10),
                           child: Container(
                             decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(15),
-                                color: AppColor.ThemeColor),
+                              borderRadius: BorderRadius.circular(15),
+                              color: AppColor.ThemeColor,
+                            ),
                             child: ListTile(
-                              //  tileColor: AppColor.ThemeColor,
                               onTap: () {
                                 Navigator.push(
                                   context,
                                   MaterialPageRoute(
                                     builder: (context) => DiscriptionScreen(
-                                        tutorialSnapshot: tutorial.data()),
+                                      tutorialSnapshot: tutorial.data() as Map<String, dynamic>,
+                                    ),
                                   ),
                                 );
                               },
-
                               leading: Container(
-                                height:
-                                    MediaQuery.of(context).size.height * 0.12,
+                                height: MediaQuery.of(context).size.height * 0.12,
                                 width: MediaQuery.of(context).size.width * 0.15,
                                 decoration: BoxDecoration(
                                   borderRadius: BorderRadius.circular(5),
                                   image: DecorationImage(
                                     image: NetworkImage(
-                                        tutorial['imageurl'] ?? ''),
+                                      tutorial['imageurl'] ?? '',
+                                    ),
                                     fit: BoxFit.cover,
                                   ),
                                 ),
                               ),
                               title: Text(
                                 tutorial['name'],
-                                style: TextStyle(
-                                    color: Colors.white, fontSize: 18),
+                                style: const TextStyle(
+                                  color: Colors.white,
+                                  fontSize: 18,
+                                ),
                               ),
                               subtitle: Text(
                                 tutorial['muscle'],
-                                style: TextStyle(color: Colors.white),
+                                style: const TextStyle(color: Colors.white),
                               ),
-                              trailing: Icon(
+                              trailing: const Icon(
                                 Icons.arrow_forward_ios,
                                 color: Colors.white,
                               ),
@@ -105,12 +165,11 @@ class _TutorialsScreenState extends State<TutorialsScreen> {
                   } else if (snapshot.hasError) {
                     return Center(child: Text('Error: ${snapshot.error}'));
                   } else {
-                    return  Center(child: CircularProgressIndicator(color: AppColor.ThemeColor,));
+                    return Center(child: CircularProgressIndicator(color: AppColor.ThemeColor));
                   }
                 },
               ),
             ),
-            CustomSizedBox(x: 0.02)
           ],
         ),
       ),
