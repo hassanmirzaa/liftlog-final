@@ -28,7 +28,15 @@ class _TutorialsScreenState extends State<TutorialsScreen> {
           children: [
             Container(
               decoration: BoxDecoration(
-                color: Colors.grey.withOpacity(0.6),
+                gradient: LinearGradient(
+                  begin: Alignment.topLeft,
+                  end: Alignment.bottomRight,
+                  colors: [
+                  Colors.grey.shade800,
+                  Colors.grey.shade800,
+                  Colors.grey,
+                  Colors.grey.shade800
+                ]),
                 borderRadius: BorderRadius.circular(30),
               ),
               child: Padding(
@@ -58,7 +66,6 @@ class _TutorialsScreenState extends State<TutorialsScreen> {
                             size: 30,
                           ),
                         ),
-                        
                       ],
                     ),
                     SizedBox(height: height * 0.001),
@@ -91,7 +98,6 @@ class _TutorialsScreenState extends State<TutorialsScreen> {
                 ),
               ),
             ),
-            const CustomSizedBox(x: 0.01),
             Expanded(
               child: StreamBuilder<QuerySnapshot>(
                 stream: FirebaseFirestore.instance
@@ -112,11 +118,13 @@ class _TutorialsScreenState extends State<TutorialsScreen> {
                         var tutorial = tutorials![index];
 
                         return Padding(
-                          padding: const EdgeInsets.only(left: 8, right: 8, bottom: 10),
+                          padding: const EdgeInsets.only(
+                              left: 8, right: 8, bottom: 10),
                           child: Container(
                             decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(15),
+                              borderRadius: BorderRadius.circular(20),
                               color: AppColor.ThemeColor,
+                              
                             ),
                             child: ListTile(
                               onTap: () {
@@ -124,13 +132,15 @@ class _TutorialsScreenState extends State<TutorialsScreen> {
                                   context,
                                   MaterialPageRoute(
                                     builder: (context) => DiscriptionScreen(
-                                      tutorialSnapshot: tutorial.data() as Map<String, dynamic>,
+                                      tutorialSnapshot: tutorial.data()
+                                          as Map<String, dynamic>,
                                     ),
                                   ),
                                 );
                               },
                               leading: Container(
-                                height: MediaQuery.of(context).size.height * 0.12,
+                                height:
+                                    MediaQuery.of(context).size.height * 0.12,
                                 width: MediaQuery.of(context).size.width * 0.15,
                                 decoration: BoxDecoration(
                                   borderRadius: BorderRadius.circular(5),
@@ -150,12 +160,12 @@ class _TutorialsScreenState extends State<TutorialsScreen> {
                                 ),
                               ),
                               subtitle: Text(
-                                tutorial['muscle'],
-                                style: const TextStyle(color: Colors.white),
+                                capitalize(tutorial['muscle']),
+                                style: const TextStyle(color: Colors.orange),
                               ),
                               trailing: const Icon(
                                 Icons.arrow_forward_ios,
-                                color: Colors.white,
+                                color: Colors.orange,
                               ),
                             ),
                           ),
@@ -165,7 +175,9 @@ class _TutorialsScreenState extends State<TutorialsScreen> {
                   } else if (snapshot.hasError) {
                     return Center(child: Text('Error: ${snapshot.error}'));
                   } else {
-                    return Center(child: CircularProgressIndicator(color: AppColor.ThemeColor));
+                    return Center(
+                        child: CircularProgressIndicator(
+                            color: AppColor.ThemeColor));
                   }
                 },
               ),
@@ -175,4 +187,11 @@ class _TutorialsScreenState extends State<TutorialsScreen> {
       ),
     );
   }
+}
+
+String capitalize(String text) {
+  if (text.isEmpty) {
+    return text;
+  }
+  return text[0].toUpperCase() + text.substring(1);
 }

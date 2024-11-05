@@ -19,13 +19,15 @@ class CustomTextField extends StatelessWidget {
   Widget build(BuildContext context) {
     return TextFormField(
       controller: controller,
-      cursorColor: AppColor.ThemeColor,
+      cursorColor: Colors.white,
       obscureText: obscure,
+      style: TextStyle(color: Colors.white), 
       decoration: InputDecoration(
         hintText: hintText,
-        hintStyle: TextStyle(color: AppColor.ThemeColor),
+        hintStyle: TextStyle(color: Colors.white),
         filled: true,
-        fillColor: Colors.white,
+        fillColor: AppColor.ThemeColor,
+        contentPadding: EdgeInsets.symmetric(vertical: 20.0, horizontal: 20.0), // Increase the padding inside the text field
         border: OutlineInputBorder(
           borderRadius: BorderRadius.circular(25),
           borderSide: const BorderSide(

@@ -1,5 +1,4 @@
 import 'dart:ui';
-
 import 'package:flutter/material.dart';
 import 'package:icons_plus/icons_plus.dart';
 import 'package:liftlog/Auth/loginpage.dart';
@@ -34,14 +33,14 @@ class _CustomNavBarState extends State<CustomNavBar> {
           Align(
             alignment: Alignment.bottomCenter,
             child: Padding(
-              padding: const EdgeInsets.all(15.0), // Adjust padding as needed
+              padding: const EdgeInsets.all(10.0), // Adjust padding as needed
               child: ClipRRect(
                 borderRadius: BorderRadius.circular(25), // Adjust border radius as needed
                 child: BackdropFilter(
-                  filter: ImageFilter.blur(sigmaX: 10, sigmaY: 10),
+                  filter: ImageFilter.blur(sigmaX: 15, sigmaY: 15),
                   child: Container(
                     height: MediaQuery.of(context).size.height * 0.11,
-                    color: Colors.grey.withOpacity(0.6),
+                    color: Colors.grey.withOpacity(0.3),
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceAround,
                       children: [
@@ -71,9 +70,10 @@ class _CustomNavBarState extends State<CustomNavBar> {
       child: Padding(
         padding: const EdgeInsets.symmetric(vertical: 6),
         child: Container(
+          width: MediaQuery.of(context).size.width*0.23,
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(20),
-            color: currentstate == index ? AppColor.PrimaryColor : null,
+            color: currentstate == index ? Colors.black45 : null,
           ),
           child: Padding(
             padding: const EdgeInsets.symmetric(vertical: 3, horizontal: 8),
@@ -83,21 +83,33 @@ class _CustomNavBarState extends State<CustomNavBar> {
                 Icon(
                   icon,
                   color: currentstate == index
-                      ? AppColor.ThemeColor
+                      ? Colors.white
                       : AppColor.BackgroundColor, 
                   size: 39,
                 ),
                 if (currentstate == index)
-                  Text(
-                    label,
-                    style: TextStyle(
-                      fontSize: 18,
-                      color: currentstate == index
-                          ? AppColor.ThemeColor
-                          : AppColor.PrimaryColor,
-                      fontWeight: FontWeight.w800,
-                    ),
-                  )
+                  Column(mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text(
+                        label,
+                        style: TextStyle(
+                          fontSize: 18,
+                          color: currentstate == index
+                              ? Colors.white
+                              : AppColor.PrimaryColor,
+                          fontWeight: FontWeight.w800,
+                        ),
+                      ),
+                      if (currentstate == index)
+                  Container(
+                    margin: const EdgeInsets.only(top: 11.9),
+                    height: 3,
+                    width: MediaQuery.of(context).size.width*0.18,
+                    color: Colors.orange,
+                  ),
+                    ],
+                  ),
+                
               ],
             ),
           ),

@@ -46,18 +46,37 @@ class _DiscriptionScreenState extends State<DiscriptionScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text(widget.tutorialSnapshot['name'] ?? 'Description'),
-        leading:
-            IconButton(onPressed: () {
+      backgroundColor: Colors.black,
+      appBar:PreferredSize(
+        preferredSize: const Size.fromHeight(kToolbarHeight),
+        child: AppBar(
+          title: Text(widget.tutorialSnapshot['name'] ?? 'Description'),
+          leading: IconButton(
+            onPressed: () {
               Navigator.pop(context);
-            }, icon: Icon(Icons.adaptive.arrow_back)),
+            },
+            icon: Icon(Icons.adaptive.arrow_back),
+          ),
+          flexibleSpace: Container(
+            decoration: BoxDecoration(
+              gradient: LinearGradient(
+                    begin: Alignment.topLeft,
+                    end: Alignment.bottomRight,
+                    colors: [
+                    AppColor.ThemeColor,
+                    Colors.grey
+                  ]),
+            ),
+          ),
+          backgroundColor: Colors.transparent,
+          elevation: 0,
+        ),
       ),
       body: SingleChildScrollView(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-           /* Padding(
+            /* Padding(
               padding: const EdgeInsets.symmetric(vertical: 10),
               child: Row(mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
@@ -92,74 +111,86 @@ class _DiscriptionScreenState extends State<DiscriptionScreen> {
               ),
             ),*/
             if (_isVideoAvailable)
-              YoutubePlayer(
-                controller: _controller!,
-                showVideoProgressIndicator: true,
+              Padding(
+                padding: const EdgeInsets.only(left: 15,right: 15,top: 20),
+                child: Container(
+                  decoration: BoxDecoration(
+                  color: AppColor.ThemeColor,
+                   borderRadius:  BorderRadius.circular(25),
+                ),
+                  child: ClipRRect(
+                    borderRadius: BorderRadius.circular(25),
+                    child: YoutubePlayer(
+                      controller: _controller!,
+                      showVideoProgressIndicator: true,
+                    ),
+                  ),
+                ),
               )
             else
               const Text(
                 "No video available for this exercise.",
                 style: TextStyle(fontSize: 16, color: Colors.red),
               ),
-           // const SizedBox(height: 10),
-            Container(
-              width: MediaQuery.of(context).size.width,
-              decoration: BoxDecoration(
-                  color: AppColor.ThemeColor,
-                 /* borderRadius: const BorderRadius.only(
-                      topLeft: Radius.circular(16),
-                      topRight: Radius.circular(16))*/
-                      ),
-              child: Padding(
-                padding: const EdgeInsets.all(16.0),
-                child: Column(
-                  children: [
-                    Text(
-                      widget.tutorialSnapshot['name'] ?? 'No name provided',
-                      style: const TextStyle(
-                          fontSize: 24,
-                          fontWeight: FontWeight.bold,
-                          color: Colors.white),
-                    ),
-                    const SizedBox(height: 16),
-                    Row(children: [
-                      const Text(
-                        "Target Muscle: ",
-                        style: TextStyle(
-                            fontSize: 20,
-                            fontWeight: FontWeight.bold,
-                            color: Colors.white),
-                      ),
-                      Text(
-                        widget.tutorialSnapshot['muscle'] ?? 'Not provided',
-                        style:
-                            const TextStyle(fontSize: 20, color: Colors.white),
-                      )
-                    ]),
-                    const SizedBox(height: 16),
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
+            // const SizedBox(height: 10),
+            Padding(
+              padding: const EdgeInsets.all(15.0),
+              child: Container(
+                width: MediaQuery.of(context).size.width,
+                decoration: BoxDecoration(
+                  gradient: LinearGradient(
+                    begin: Alignment.topLeft,
+                    end: Alignment.bottomRight,
+                    colors: [
+                    AppColor.ThemeColor,
+                    Colors.grey
+                  ]),
+                   borderRadius:  BorderRadius.circular(25),
+                ),
+                child: Padding(
+                  padding: const EdgeInsets.all(16.0),
+                  child: Column(
+                    children: [
+                      const SizedBox(height: 16),
+                      Row(children: [
                         const Text(
-                          "Description: ",
+                          "Target Muscle: ",
                           style: TextStyle(
                               fontSize: 20,
                               fontWeight: FontWeight.bold,
                               color: Colors.white),
                         ),
                         Text(
-                          widget.tutorialSnapshot['description'] ??
-                              'No description provided',
-                          style: const TextStyle(
-                              fontSize: 20, color: Colors.white),
-                        ),
-                      ],
-                    ),
-                  ],
+                          widget.tutorialSnapshot['muscle'] ?? 'Not provided',
+                          style:
+                              const TextStyle(fontSize: 20, color: Colors.white),
+                        )
+                      ]),
+                      const SizedBox(height: 16),
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          const Text(
+                            "Description: ",
+                            style: TextStyle(
+                                fontSize: 20,
+                                fontWeight: FontWeight.bold,
+                                color: Colors.white),
+                          ),
+                          Text(
+                            widget.tutorialSnapshot['description'] ??
+                                'No description provided',
+                            style: const TextStyle(
+                                fontSize: 20, color: Colors.white),
+                          ),
+                        ],
+                      ),
+                    ],
+                  ),
                 ),
               ),
             ),
-        
+
             // const SizedBox(height: 16),
           ],
         ),

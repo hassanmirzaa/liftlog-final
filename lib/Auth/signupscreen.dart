@@ -75,6 +75,7 @@ class _SignupScreenState extends State<SignupScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.black,
       body: Center(
         child: SingleChildScrollView(
           child: Padding(
@@ -86,7 +87,7 @@ class _SignupScreenState extends State<SignupScreen> {
                     style: TextStyle(
                         fontSize: 35,
                         fontWeight: FontWeight.bold,
-                        color: AppColor.ThemeColor)),
+                        color: Colors.white)),
                 const CustomSizedBox(x: 0.02),
                 Form(
                   key: _formKey,
@@ -150,7 +151,7 @@ class _SignupScreenState extends State<SignupScreen> {
                           // ignore: prefer_const_constructors
                           ? CircularProgressIndicator(backgroundColor: AppColor.ThemeColor,)
                           : SquareButton(
-                              widthSize: 0.3,
+                              widthSize: 0.8,
                               heading: "Register",
                               onPress: () {
                                 if (_formKey.currentState?.validate() ?? false) {

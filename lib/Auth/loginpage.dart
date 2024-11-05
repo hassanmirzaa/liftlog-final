@@ -44,7 +44,7 @@ class _LoginScreenState extends State<LoginScreen> {
       Navigator.pushReplacement(
         context,
         MaterialPageRoute(
-          builder: (context) => SplitScreen(),
+          builder: (context) => const SplitScreen(),
         ),
       );
     } on FirebaseAuthException catch (e) {
@@ -90,24 +90,16 @@ class _LoginScreenState extends State<LoginScreen> {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.start,
             children: [
-             Container(
-                  decoration: BoxDecoration(
-                    color: Colors.grey.withOpacity(0.6),
-                    borderRadius: BorderRadius.circular(30),
-                  ),
-                  child: const Padding(
-                    padding: EdgeInsets.all(25.0),
-                    child: Text(
-                      'Login',
-                      style: TextStyle(
-                        fontSize: 30,
-                        color: Colors.white,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                  ),
-                ),
-              const CustomSizedBox(x: 0.15),
+              CustomSizedBox(x: 0.02),
+             const Text(
+               'Login',
+               style: TextStyle(
+                 fontSize: 50,
+                 color: Colors.white,
+                 fontWeight: FontWeight.bold,
+               ),
+             ),
+              const CustomSizedBox(x: 0.08),
               Form(
                 key: _formKey,
                 child: Column(
@@ -138,9 +130,9 @@ class _LoginScreenState extends State<LoginScreen> {
                   ],
                 ),
               ),
-              const CustomSizedBox(x: 0.02),
+              const CustomSizedBox(x: 0.03),
               _isLoading
-                  ?  CircularProgressIndicator(color: Colors.white,)
+                  ?  const CircularProgressIndicator(color: Colors.white,)
                   : SquareButton(
                       heading: 'Login',
                       widthSize: 0.8,
@@ -154,18 +146,18 @@ class _LoginScreenState extends State<LoginScreen> {
               const CustomSizedBox(x: 0.02),
               TextButton(
                 onPressed: resetPassword,
-                child: Text(
+                child: const Text(
                   'Forgot Password?',
-                  style: TextStyle(color: AppColor.ThemeColor,fontSize: 18),
+                  style: TextStyle(color: Colors.grey,fontSize: 18),
                 ),
               ),
               const CustomSizedBox(x: 0.02),
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Text(
+                  const Text(
                     "Don't have an account?",
-                    style: TextStyle(color: AppColor.ThemeColor,fontSize: 18),
+                    style: TextStyle(color: Colors.grey,fontSize: 18),
                   ),
                   InkWell(
                     onTap: () {
@@ -183,18 +175,18 @@ class _LoginScreenState extends State<LoginScreen> {
                   ),
                 ],
               ),
-              CustomSizedBox(x: 0.02),
-              Text("Or"),
-              CustomSizedBox(x: 0.02),
+              const CustomSizedBox(x: 0.02),
+              const Text("Or",style: TextStyle(color: Colors.grey),),
+              const CustomSizedBox(x: 0.02),
               
               Container(width: Width*0.2,
                 decoration: BoxDecoration(
-                  color: Colors.white,
+                  color: AppColor.ThemeColor,
                   borderRadius: BorderRadius.circular(20)
                 ),
-                child: Padding(
+                child:  Padding(
                   padding: const EdgeInsets.all(15.0),
-                  child: Center(child: Icon(Bootstrap.google,size: 35,color: Colors.green.shade800,)),
+                  child: Center(child: Image.asset('assets/images/google_logo.png')),
                 ),
               )
             ],
